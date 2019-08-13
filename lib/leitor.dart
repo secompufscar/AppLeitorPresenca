@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:qr_mobile_vision/qr_camera.dart';
@@ -42,8 +41,9 @@ class _LeitorState extends State<Leitor> {
       if (open) {
         setState(() {
           qr = code;
+          open = false;
+          display = "Enviando..";
         });
-        open = false;
 
         final Presenca presenca =
             await api.lerPresenca(code, widget.idAtividade);
@@ -59,6 +59,12 @@ class _LeitorState extends State<Leitor> {
             display = presenca.nome;
           });
         }
+
+        Timer(Duration(seconds: 2), () {
+          setState(() {
+            open = true;
+          });
+        });
       }
     }
 
