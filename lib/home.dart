@@ -36,6 +36,7 @@ class HomeScreen extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => Leitor(
               title: titulo,
+              idAtividade: index.toString(),
             ),
           ),
         );

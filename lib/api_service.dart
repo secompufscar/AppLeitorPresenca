@@ -21,6 +21,8 @@ class ApiService {
         throw Exception("Ocorreu algum erro");
       } else if (response.body == "INVALID KEY") {
         throw Exception("Ocorreu algum erro");
+      } else if (response.body == "JA_LIDO") {
+        return Presenca.lido();
       }
 
       return Presenca(json.decode(response.body), id);

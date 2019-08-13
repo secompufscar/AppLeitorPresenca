@@ -5,116 +5,105 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:qr_mobile_vision/qr_camera.dart';
 import 'package:audioplayers/audio_cache.dart';
+import 'package:secomp_leitor/api_service.dart';
+import 'package:secomp_leitor/presenca.dart';
 
 class Leitor extends StatefulWidget {
   @override
   _LeitorState createState() => _LeitorState();
   final String title;
+  final String idAtividade;
 
-  Leitor({this.title}) : assert(title != null);
+  Leitor({this.title, this.idAtividade})
+      : assert(title != null, idAtividade != null);
 }
 
 class _LeitorState extends State<Leitor> {
   String qr;
   bool camState = false;
   bool open = true;
+  String display;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   static AudioCache player = new AudioCache();
   final audioPath = "futuristic.mp3";
 
+  final ApiService api = ApiService();
+
   @override
   initState() {
     super.initState();
   }
 
-  List lidos = <String>[];
-
-  Widget buildListItem(BuildContext context, int index) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Text(lidos[index]),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    void lerPresenca(String code) async {
+      if (open) {
+        setState(() {
+          qr = code;
+        });
+        open = false;
+
+        final Presenca presenca =
+            await api.lerPresenca(code, widget.idAtividade);
+
+        if (presenca.status == Status.lido) {
+          setState(() {
+            display = "Código já lido";
+          });
+        } else {
+          player.play(audioPath);
+
+          setState(() {
+            display = presenca.nome;
+          });
+        }
+      }
+    }
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: ListView(
-        children: <Widget>[
-          Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(24),
-                  child: (qr != null)
-                      ? Text(qr, style: TextStyle(fontSize: 16))
-                      : Text(""),
-                ),
-                camState
-                    ? Center(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: SizedBox(
-                            width: 400.0,
-                            height: 400.0,
-                            child: QrCamera(
-                              notStartedBuilder: (context) =>
-                                  Center(child: Text("Ligando camera...")),
-                              onError: (context, error) => Text(
-                                error.toString(),
-                                style: TextStyle(color: Colors.red),
-                              ),
-                              qrCodeCallback: (code) {
-                                if (open) {
-                                  if (lidos.contains(code)) {
-                                    setState(() {
-                                      qr = "Código já lido!";
-                                    });
-                                  } else {
-                                    player.play(audioPath);
-                                    setState(() {
-                                      qr = code;
-                                    });
-                                    open = false;
-                                    lidos.add(code);
-                                    Timer(
-                                      Duration(seconds: 2),
-                                      () => setState(() {
-                                        open = true;
-                                      }),
-                                    );
-                                  }
-                                }
-                              },
-                            ),
-                          ),
-                        ),
-                      )
-                    : Center(
-                        child: Text(
-                          "Camera desligada",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ),
-              ],
+      body: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(24),
+              child: (qr != null)
+                  ? Text(display, style: TextStyle(fontSize: 16))
+                  : Text(""),
             ),
-          ),
-          ListView.builder(
-            shrinkWrap: true,
-            physics: ClampingScrollPhysics(),
-            itemBuilder: (context, index) => buildListItem(context, index),
-            itemCount: lidos.length,
-            reverse: true,
-          ),
-        ],
+            camState
+                ? Center(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: SizedBox(
+                        width: 400.0,
+                        height: 400.0,
+                        child: QrCamera(
+                            notStartedBuilder: (context) =>
+                                Center(child: Text("Ligando camera...")),
+                            onError: (context, error) => Text(
+                                  error.toString(),
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                            qrCodeCallback: (code) => lerPresenca(code)),
+                      ),
+                    ),
+                  )
+                : Center(
+                    child: Text(
+                      "Camera desligada",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.camera_alt),
