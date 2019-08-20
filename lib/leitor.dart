@@ -57,7 +57,7 @@ class _LeitorState extends State<Leitor> {
           player.play(audioPath);
 
           setState(() {
-            display = Text(presenca.nome);
+            display = Text("${presenca.nome} \n OK!");
           });
         }
 
