@@ -1,23 +1,15 @@
 class Presenca {
   String _id;
   String _nome;
-  Status _status;
-
-  Presenca.lido() {
-    this._id = "";
-    this._nome = "";
-    this._status = Status.lido;
-  }
+  String _status;
 
   Presenca(Map<String, dynamic> parsedJson, String id) {
     this._id = id;
-    this._nome = parsedJson['participante'];
-    this._status = Status.ok;
+    this._nome = parsedJson['Participante'];
+    this._status = parsedJson['Status'];
   }
 
   String get id => _id;
   String get nome => _nome;
-  Status get status => _status;
+  String get status => _status;
 }
-
-enum Status { lido, ok }

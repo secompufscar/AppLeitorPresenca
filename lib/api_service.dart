@@ -10,10 +10,14 @@ class ApiService {
   Future<Presenca> lerPresenca(String id, String atividade) async {
     final response = await client.post(
       BASE_URL + "/api/ler-presenca",
-      body: {
-        "id_participante": id,
-        "id_atividade": atividade,
-      },
+      body: json.encode({
+        "id_participante": "1",
+        "id_atividade": "1",
+        "key": API_KEY,
+      }),
+      headers: {"Content-Type": "application/json"},
+
+      // body: '{"id_participante": "1", "id_atividade: "1", "key": $API_KEY}',
     );
 
     if (response.statusCode == 200) {
@@ -21,10 +25,7 @@ class ApiService {
         throw Exception("Ocorreu algum erro");
       } else if (response.body == "INVALID KEY") {
         throw Exception("Ocorreu algum erro");
-      } else if (response.body == "JA_LIDO") {
-        return Presenca.lido();
-      }
-
+      } 
       return Presenca(json.decode(response.body), id);
     } else {
       throw Exception("Ocorreu algum erro");

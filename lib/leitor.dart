@@ -21,7 +21,7 @@ class _LeitorState extends State<Leitor> {
   String qr;
   bool camState = false;
   bool open = true;
-  String display;
+  Widget display = Container();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -42,21 +42,22 @@ class _LeitorState extends State<Leitor> {
         setState(() {
           qr = code;
           open = false;
-          display = "Enviando..";
+          display = Text("Enviando..");
         });
 
         final Presenca presenca =
-            await api.lerPresenca(code, widget.idAtividade);
+            await api.lerPresenca('1', '1');
 
-        if (presenca.status == Status.lido) {
+        if (presenca.status == 'JA_LIDO') {
+          print("ja lido");
           setState(() {
-            display = "Código já lido";
+            display = Text("${presenca.nome} \n Já lido");
           });
         } else {
           player.play(audioPath);
 
           setState(() {
-            display = presenca.nome;
+            display = Text(presenca.nome);
           });
         }
 
@@ -81,8 +82,8 @@ class _LeitorState extends State<Leitor> {
             Padding(
               padding: EdgeInsets.all(24),
               child: (qr != null)
-                  ? Text(display, style: TextStyle(fontSize: 16))
-                  : Text(""),
+                  ? display
+                  : Container(),
             ),
             camState
                 ? Center(
