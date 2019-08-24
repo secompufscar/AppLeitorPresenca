@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:secomp_leitor/atividades.dart';
 import 'package:secomp_leitor/constants.dart';
 import 'package:secomp_leitor/presenca.dart';
 
@@ -12,23 +13,35 @@ class ApiService {
       BASE_URL + "/api/ler-presenca",
       body: json.encode({
         "id_participante": "1",
-        "id_atividade": "1",
+        "id_atividade": atividade,
         "key": API_KEY,
       }),
       headers: {"Content-Type": "application/json"},
-
-      // body: '{"id_participante": "1", "id_atividade: "1", "key": $API_KEY}',
     );
 
+    print("body:" + response.body);
+
+    String body = response.body;
+    
     if (response.statusCode == 200) {
-      if (response.body == "ERROR") {
-        throw Exception("Ocorreu algum erro");
-      } else if (response.body == "INVALID KEY") {
-        throw Exception("Ocorreu algum erro");
-      } 
-      return Presenca(json.decode(response.body), id);
+      if (body.contains("ERROR")) {
+        return Future.error("Ocorreu algum erro");
+      } else if (body.contains("INVALID KEY")) {
+        return Future.error("Ocorreu algum erro");
+      } else
+        return Presenca(json.decode(body), id);
     } else {
-      throw Exception("Ocorreu algum erro");
+      return Future.error("Ocorreu algum erro");
+    }
+  }
+
+  Future<Atividades> getAtividades() async {
+    final response = await client.get(BASE_URL + "/api/atividades/10");
+
+    if (response.statusCode == 200) {
+      return Atividades(json.decode(response.body));
+    } else {
+      return Future.error("Ocorreu algum erro");
     }
   }
 }

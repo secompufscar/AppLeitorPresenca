@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:secomp_leitor/api_service.dart';
 import 'package:secomp_leitor/atividades.dart';
 import 'package:secomp_leitor/leitor.dart';
 
 class HomeScreen extends StatelessWidget {
+  ApiService api = ApiService();
+
   final atividades = <Atividade>[
     Atividade(
         titulo: "Palestra: Segurança digital",
@@ -22,13 +25,13 @@ class HomeScreen extends StatelessWidget {
         horario: DateTime.now()),
   ];
 
-  Widget buildListItem(BuildContext context, int index) {
-    final horario = atividades[index].horario;
-    final titulo = atividades[index].titulo;
+  Widget buildListItem(BuildContext context, Atividade atividade) {
+    final horario = atividade.horario;
+    final titulo = atividade.tipo + ": " + atividade.titulo;
 
     return ListTile(
       title: Text(titulo),
-      subtitle: Text(atividades[index].local),
+      subtitle: Text(atividade.local),
       trailing: Text("${horario.hour}:${horario.minute}"),
       onTap: () {
         Navigator.push(
@@ -36,7 +39,7 @@ class HomeScreen extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => Leitor(
               title: titulo,
-              idAtividade: index.toString(),
+              idAtividade: atividade.id.toString(),
             ),
           ),
         );
@@ -47,13 +50,24 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Atividades"),
-      ),
-      body: ListView.builder(
-        itemCount: atividades.length,
-        itemBuilder: (context, index) => buildListItem(context, index),
-      ),
-    );
+        appBar: AppBar(
+          title: Text("Atividades"),
+        ),
+        body: FutureBuilder(
+          future: api.getAtividades(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              Atividades atividades = snapshot.data;
+              return ListView.builder(
+                itemCount: atividades.count,
+                itemBuilder: (context, index) => buildListItem(context, atividades.results[index]),
+              );
+            } else if (snapshot.hasError) {
+              return Center(child: Text("Ocorreu algum erro"));
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          },
+        ));
   }
 }

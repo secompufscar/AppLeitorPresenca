@@ -45,23 +45,48 @@ class _LeitorState extends State<Leitor> {
           display = Text("Enviando..");
         });
 
+        try {
+
         final Presenca presenca =
-            await api.lerPresenca('1', '1');
+            await api.lerPresenca('1', widget.idAtividade);
 
         if (presenca.status == 'JA_LIDO') {
           print("ja lido");
           setState(() {
-            display = Text("${presenca.nome} \n Já lido");
+            display = Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Icon(Icons.check_circle_outline, color: Colors.yellow),
+                Text("${presenca.nome} \n Já lido"),
+              ],
+            );
           });
         } else {
           player.play(audioPath);
 
           setState(() {
-            display = Text("${presenca.nome} \n OK!");
+            display = Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Icon(Icons.check_circle_outline, color: Colors.green),
+                Text("${presenca.nome} \n OK!"),
+              ],
+            );
+          });
+        }
+        } catch (e) {
+          setState(() {
+            display = Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Icon(Icons.error_outline, color: Colors.red),
+                Text("Ocorreu algum erro.\nTente novamente."),
+              ],
+            );
           });
         }
 
-        Timer(Duration(seconds: 2), () {
+        Future.delayed(Duration(seconds: 2), () {
           setState(() {
             open = true;
           });
@@ -81,9 +106,7 @@ class _LeitorState extends State<Leitor> {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.all(24),
-              child: (qr != null)
-                  ? display
-                  : Container(),
+              child: (qr != null) ? display : Container(),
             ),
             camState
                 ? Center(
