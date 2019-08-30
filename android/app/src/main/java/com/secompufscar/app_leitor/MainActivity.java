@@ -1,8 +1,9 @@
-package com.example.secomp_leitor;
+package br.com.secompufscar.app_leitor;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
 import io.flutter.plugins.GeneratedPluginRegistrant;
+
 
 public class MainActivity extends FlutterActivity {
   @Override
@@ -10,4 +11,5 @@ public class MainActivity extends FlutterActivity {
     super.onCreate(savedInstanceState);
     GeneratedPluginRegistrant.registerWith(this);
   }
+
 }

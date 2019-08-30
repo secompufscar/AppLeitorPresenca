@@ -2,28 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:secomp_leitor/api_service.dart';
 import 'package:secomp_leitor/atividades.dart';
 import 'package:secomp_leitor/leitor.dart';
+import 'package:secomp_leitor/post_noticias.dart';
 
 class HomeScreen extends StatelessWidget {
-  ApiService api = ApiService();
-
-  final atividades = <Atividade>[
-    Atividade(
-        titulo: "Palestra: Segurança digital",
-        local: "Auditório Bento Prado",
-        horario: DateTime.now()),
-    Atividade(
-        titulo: "Minicurso: Desenvolvimento de Apps iOS",
-        local: "IFSP",
-        horario: DateTime.now()),
-    Atividade(
-        titulo: "Coffe Break",
-        local: "Anexo Auditório Bento Prado",
-        horario: DateTime.now()),
-    Atividade(
-        titulo: "Mesa Redonda: Diversidade na computação",
-        local: "Auditório Bento Prado",
-        horario: DateTime.now()),
-  ];
+  final ApiService api = ApiService();
 
   Widget buildListItem(BuildContext context, Atividade atividade) {
     final horario = atividade.horario;
@@ -52,6 +34,17 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text("Atividades"),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.add_comment),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PostNoticias()),
+                );
+              },
+            ),
+          ],
         ),
         body: FutureBuilder(
           future: api.getAtividades(),
@@ -60,7 +53,8 @@ class HomeScreen extends StatelessWidget {
               Atividades atividades = snapshot.data;
               return ListView.builder(
                 itemCount: atividades.count,
-                itemBuilder: (context, index) => buildListItem(context, atividades.results[index]),
+                itemBuilder: (context, index) =>
+                    buildListItem(context, atividades.results[index]),
               );
             } else if (snapshot.hasError) {
               return Center(child: Text("Ocorreu algum erro"));
