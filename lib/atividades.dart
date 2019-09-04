@@ -13,16 +13,22 @@ class Atividades {
   List<Atividade> _results;
   int _count;
 
-  Atividades(Map<String, dynamic> json) {
-    this._count = json['count'];
+  static DateTime getDate(String date) {
+    print(date);
+    return DateTime.parse(
+          "2019-09-${date.substring(5, 7)} ${date.substring(17, 19)}:${date.substring(20, 22)}:00");
+  }
+
+  Atividades(List json) {
+    this._count = json.length;
     List<Atividade> temp = [];
-    for (var a in json['results']) {
+    for (var a in json) {
       temp.add(
         Atividade(
-            titulo: a['titulo'],
-            local: a['local'],
-            horario: DateTime.now(),
-            tipo: a['tipo'],
+            titulo: a['titulo'] ?? 'sem título',
+            local: a['local'] ?? 'sem local',
+            horario: a['inicio'] != null ? getDate(a['inicio']) : null,
+            tipo: a['tipo'] ?? ' ',
             id: a['id']),
       );
     }

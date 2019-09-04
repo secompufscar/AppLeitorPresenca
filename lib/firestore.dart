@@ -3,8 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreService {
   Future<List<Noticia>> loadNoticias() async {
-     try {
-      final snapshot = Firestore.instance.collection('noticias').snapshots();
+    try {
+      final snapshot = Firestore.instance
+          .collection('noticias')
+          .orderBy('time', descending: true)
+          .snapshots();
       List<Noticia> temp = [];
       snapshot.listen((data) {
         data.documents.forEach(
@@ -17,7 +20,7 @@ class FirestoreService {
         );
       });
 
-      temp.sort();
+      Future.delayed(Duration(milliseconds: 500), () {});
 
       return temp;
     } catch (e) {
@@ -33,7 +36,7 @@ class FirestoreService {
     try {
       Firestore.instance.collection('noticias').add(mapNoticia);
       return true;
-    } catch(e) {
+    } catch (e) {
       return false;
     }
   }

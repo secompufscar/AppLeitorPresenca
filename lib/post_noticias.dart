@@ -51,16 +51,24 @@ class _PostNoticiasState extends State<PostNoticias> {
       child: Scaffold(
         resizeToAvoidBottomPadding: true, // this avoids the overflow error
         appBar: AppBar(
-          title: Text("Notíciaaas"),
+          title: Text("Notícias"),
         ),
         body: FutureBuilder(
           future: _firestore.loadNoticias(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return ListView.builder(
-                itemCount: snapshot.data.length,
-                itemBuilder: (context, index) =>
-                    _buildNoticia(snapshot.data[index]),
+              List<Noticia> noticias = snapshot.data;
+                return ListView.builder(
+                  itemCount: noticias.length,
+                  itemBuilder: (context, index) =>
+                      _buildNoticia(noticias[index]),
+                );
+            } else if (snapshot.hasError) {
+              return GestureDetector(
+                onTap: () {
+                  setState(() {});
+                },
+                child: Text("Ocorreu algum erro.\n Toque para recarregar"),
               );
             } else {
               return Center(
@@ -104,4 +112,3 @@ class _PostNoticiasState extends State<PostNoticias> {
     );
   }
 }
-

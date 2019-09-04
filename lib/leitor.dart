@@ -5,7 +5,9 @@ import 'package:flutter/rendering.dart';
 import 'package:qr_mobile_vision/qr_camera.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:secomp_leitor/api_service.dart';
+import 'package:secomp_leitor/inscricao.dart';
 import 'package:secomp_leitor/presenca.dart';
+import 'package:secomp_leitor/verifica_kit.dart';
 
 class Leitor extends StatefulWidget {
   @override
@@ -35,6 +37,58 @@ class _LeitorState extends State<Leitor> {
     super.initState();
   }
 
+  void _lerPresenca(bool force) async {
+    final Presenca presenca =
+        await api.lerPresenca(qr, widget.idAtividade, force);
+    if (presenca.status == 'JA_LIDO') {
+      print("ja lido");
+      setState(() {
+        display = Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Icon(Icons.check_circle_outline, color: Colors.yellow),
+            Text("${presenca.nome} \n Já lido"),
+          ],
+        );
+      });
+    } else {
+      player.play(audioPath);
+
+      setState(() {
+        display = Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Icon(Icons.check_circle_outline, color: Colors.green),
+            Text("${presenca.nome} \n OK!"),
+          ],
+        );
+      });
+    }
+  }
+
+  Widget _buildDialog(BuildContext context, Inscricao inscricao) {
+    return AlertDialog(
+      title: Text("Forçar presença?"),
+      content: Text(
+          "${inscricao.nome} não está inscrito nessa atividade.\nVocê deseja forçar a presença?"),
+      actions: <Widget>[
+        MaterialButton(child: Text("Sim"), onPressed: () => _lerPresenca(true),),
+        MaterialButton(child: Text("Não"), onPressed: () {
+          setState(() {
+            display = Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Icon(Icons.error_outline, color: Colors.red),
+            Text("${inscricao.nome} \n Não autorizado"),
+          ],
+        );
+          });
+          Navigator.pop(context);
+        })
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     void lerPresenca(String code) async {
@@ -46,34 +100,16 @@ class _LeitorState extends State<Leitor> {
         });
 
         try {
+          final VerificaKit kit = await api.verificaKit(code);
+          final Inscricao inscricao =
+              await api.verificarInscricao(code, widget.idAtividade);
 
-        final Presenca presenca =
-            await api.lerPresenca('1', widget.idAtividade);
-
-        if (presenca.status == 'JA_LIDO') {
-          print("ja lido");
-          setState(() {
-            display = Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Icon(Icons.check_circle_outline, color: Colors.yellow),
-                Text("${presenca.nome} \n Já lido"),
-              ],
-            );
-          });
-        } else {
-          player.play(audioPath);
-
-          setState(() {
-            display = Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Icon(Icons.check_circle_outline, color: Colors.green),
-                Text("${presenca.nome} \n OK!"),
-              ],
-            );
-          });
-        }
+          if (!inscricao.inscrito || !kit.temKit) {
+            showDialog(context: context,builder: (context) => _buildDialog(context, inscricao));
+          } else {
+            _lerPresenca(false);
+          }
+ 
         } catch (e) {
           setState(() {
             display = Column(
