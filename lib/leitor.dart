@@ -38,8 +38,22 @@ class _LeitorState extends State<Leitor> {
   }
 
   void _lerPresenca(bool force) async {
-    final Presenca presenca =
-        await api.lerPresenca(qr, widget.idAtividade, force);
+    Presenca presenca;
+    try {
+      presenca = await api.lerPresenca(qr, widget.idAtividade, force);
+    } catch (_) {
+      setState(() {
+        display = Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Icon(Icons.error_outline, color: Colors.red),
+            Text("Ocorreu algum erro.\nTente novamente."),
+          ],
+        );
+      });
+      return;
+    }
+
     if (presenca.status == 'JA_LIDO') {
       print("ja lido");
       setState(() {
@@ -72,19 +86,27 @@ class _LeitorState extends State<Leitor> {
       content: Text(
           "${inscricao.nome} não está inscrito nessa atividade.\nVocê deseja forçar a presença?"),
       actions: <Widget>[
-        MaterialButton(child: Text("Sim"), onPressed: () => _lerPresenca(true),),
-        MaterialButton(child: Text("Não"), onPressed: () {
-          setState(() {
-            display = Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Icon(Icons.error_outline, color: Colors.red),
-            Text("${inscricao.nome} \n Não autorizado"),
-          ],
-        );
-          });
-          Navigator.pop(context);
-        })
+        MaterialButton(
+          child: Text("Sim"),
+          onPressed: () {
+            _lerPresenca(true);
+            Navigator.pop(context);
+          },
+        ),
+        MaterialButton(
+            child: Text("Não"),
+            onPressed: () {
+              setState(() {
+                display = Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Icon(Icons.error_outline, color: Colors.red),
+                    Text("${inscricao.nome} \n Não autorizado"),
+                  ],
+                );
+              });
+              Navigator.pop(context);
+            })
       ],
     );
   }
@@ -105,11 +127,12 @@ class _LeitorState extends State<Leitor> {
               await api.verificarInscricao(code, widget.idAtividade);
 
           if (!inscricao.inscrito || !kit.temKit) {
-            showDialog(context: context,builder: (context) => _buildDialog(context, inscricao));
+            showDialog(
+                context: context,
+                builder: (context) => _buildDialog(context, inscricao));
           } else {
             _lerPresenca(false);
           }
- 
         } catch (e) {
           setState(() {
             display = Column(

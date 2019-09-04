@@ -4,8 +4,10 @@ import 'package:secomp_leitor/atividades.dart';
 import 'package:secomp_leitor/leitor.dart';
 import 'package:secomp_leitor/post_noticias.dart';
 
+
 class HomeScreen extends StatelessWidget {
   final ApiService api = ApiService();
+  
 
   Widget buildListItem(BuildContext context, Atividade atividade) {
     final horario = atividade.horario;
@@ -14,7 +16,7 @@ class HomeScreen extends StatelessWidget {
     return ListTile(
       title: Text(titulo),
       subtitle: Text(atividade.local),
-      trailing: Text(horario != null ? "${horario.hour}:${horario.minute}" : "horário não definido"),
+      trailing: Text(horario != null ? TimeOfDay.fromDateTime(horario).format(context) : "horário não definido"),
       onTap: () {
         Navigator.push(
           context,
