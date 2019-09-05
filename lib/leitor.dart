@@ -80,11 +80,13 @@ class _LeitorState extends State<Leitor> {
     }
   }
 
-  Widget _buildDialog(BuildContext context, Inscricao inscricao) {
+  Widget _buildDialog(
+      BuildContext context, Inscricao inscricao, VerificaKit kit) {
+    String stringKit = kit.temKit ? " " : "SEM KIT!!!";
     return AlertDialog(
       title: Text("Forçar presença?"),
       content: Text(
-          "${inscricao.nome} não está inscrito nessa atividade.\nVocê deseja forçar a presença?"),
+          "${inscricao.nome} não está inscrito nessa atividade.\n$stringKit\nVocê deseja forçar a presença?"),
       actions: <Widget>[
         MaterialButton(
           child: Text("Sim"),
@@ -125,11 +127,21 @@ class _LeitorState extends State<Leitor> {
           final VerificaKit kit = await api.verificaKit(code);
           final Inscricao inscricao =
               await api.verificarInscricao(code, widget.idAtividade);
-
-          if (!inscricao.inscrito || !kit.temKit) {
+          if (widget.title.contains("Palestra:")) {
+            _lerPresenca(false);
+          } else if (widget.title.contains("Coffee-Break")) {
+            if(!kit.temKit) {
+              showDialog(
+                context: context,
+                builder: (context) => _buildDialog(context, inscricao, kit));
+            } else {
+              _lerPresenca(false);
+            }
+          } 
+          else if (!inscricao.inscrito) {
             showDialog(
                 context: context,
-                builder: (context) => _buildDialog(context, inscricao));
+                builder: (context) => _buildDialog(context, inscricao, kit));
           } else {
             _lerPresenca(false);
           }

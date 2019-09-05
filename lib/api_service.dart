@@ -61,7 +61,7 @@ class ApiService {
       body: json.encode({
         "uuid_participante": uuid,
         "id_atividade": atividade,
-        "force": force,
+        "force_presenca": force,
         "key": API_KEY,
       }),
       headers: {"Content-Type": "application/json"},
