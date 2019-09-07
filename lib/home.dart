@@ -3,6 +3,7 @@ import 'package:secomp_leitor/api_service.dart';
 import 'package:secomp_leitor/atividades.dart';
 import 'package:secomp_leitor/leitor.dart';
 import 'package:secomp_leitor/post_noticias.dart';
+import 'package:secomp_leitor/visualizador.dart';
 
 
 class HomeScreen extends StatelessWidget {
@@ -45,6 +46,15 @@ class HomeScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => PostNoticias()),
+                  );
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.visibility),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Visualizador()),
                   );
                 },
               ),

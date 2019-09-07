@@ -40,4 +40,32 @@ class FirestoreService {
       return false;
     }
   }
+
+  Future<dynamic> deleteNoticia(Noticia noticia) async {
+    try {
+      DocumentSnapshot ds;
+      final snapshots = Firestore.instance
+          .collection('noticias')
+          .where('text', isEqualTo: noticia.content)
+          .snapshots();
+      snapshots.listen((data) {
+        data.documents.forEach((doc) {
+          ds = doc;
+        });
+      });
+
+      final TransactionHandler deleteTransaction = (Transaction tx) async {
+        await tx.delete(ds.reference);
+        return {'deleted': true};
+      };
+
+      return Firestore.instance
+          .runTransaction(deleteTransaction)
+          .then((result) => result['deleted'])
+          .catchError((error) {
+        print('error: $error');
+        return false;
+      });
+    } catch (_) {}
+  }
 }

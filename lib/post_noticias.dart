@@ -30,9 +30,30 @@ class _PostNoticiasState extends State<PostNoticias> {
 
   Widget _buildNoticia(Noticia noticia) {
     String time = getTime(noticia.date);
-    return NoticiaCard(
-      content: noticia.content,
-      date: time,
+    return GestureDetector(
+      child: NoticiaCard(
+        content: noticia.content,
+        date: time,
+      ),
+      onLongPress: () => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Deletar"),
+          content: Text("Você tem certeza que quer deletar?"),
+          actions: <Widget>[
+            MaterialButton(child: Text("sim"),onPressed: () async {
+              await _firestore.deleteNoticia(noticia);
+              setState(() {
+                
+              });
+              Navigator.pop(context);
+            },),
+            MaterialButton(child: Text("não"), onPressed: () {
+              Navigator.pop(context);
+            },)
+          ],
+        ),
+      ),
     );
   }
 
@@ -58,11 +79,10 @@ class _PostNoticiasState extends State<PostNoticias> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List<Noticia> noticias = snapshot.data;
-                return ListView.builder(
-                  itemCount: noticias.length,
-                  itemBuilder: (context, index) =>
-                      _buildNoticia(noticias[index]),
-                );
+              return ListView.builder(
+                itemCount: noticias.length,
+                itemBuilder: (context, index) => _buildNoticia(noticias[index]),
+              );
             } else if (snapshot.hasError) {
               return GestureDetector(
                 onTap: () {

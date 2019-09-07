@@ -128,14 +128,14 @@ class _LeitorState extends State<Leitor> {
           final Inscricao inscricao =
               await api.verificarInscricao(code, widget.idAtividade);
           if (widget.title.contains("Palestra:")) {
-            _lerPresenca(false);
+            _lerPresenca(true);
           } else if (widget.title.contains("Coffee-Break")) {
             if(!kit.temKit) {
               showDialog(
                 context: context,
                 builder: (context) => _buildDialog(context, inscricao, kit));
             } else {
-              _lerPresenca(false);
+              _lerPresenca(true);
             }
           } 
           else if (!inscricao.inscrito) {
