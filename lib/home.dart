@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:secomp_leitor/api_service.dart';
 import 'package:secomp_leitor/atividades.dart';
 import 'package:secomp_leitor/leitor.dart';
+import 'package:secomp_leitor/login.dart';
 import 'package:secomp_leitor/post_noticias.dart';
 import 'package:secomp_leitor/visualizador.dart';
 
@@ -42,12 +43,10 @@ class HomeScreen extends StatelessWidget {
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.add_comment),
-                onPressed: () {
-                  Navigator.push(
+                onPressed: () =>  Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => PostNoticias()),
-                  );
-                },
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                  ),
               ),
               IconButton(
                 icon: Icon(Icons.visibility),

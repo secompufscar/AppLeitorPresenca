@@ -53,8 +53,19 @@ class _LeitorState extends State<Leitor> {
       });
       return;
     }
-
-    if (presenca.status == 'JA_LIDO') {
+    if (presenca.status == 'NÃO_CREDENCIADO') {
+      print("ja lido");
+      setState(() {
+        display = Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Icon(Icons.error_outline, color: Colors.red),
+            Text("${presenca.nome} \n Não Credenciado!!"),
+          ],
+        );
+      });
+    }
+    else if (presenca.status == 'JA_LIDO') {
       print("ja lido");
       setState(() {
         display = Column(

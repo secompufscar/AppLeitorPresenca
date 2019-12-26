@@ -39,8 +39,17 @@ String qr;
         try {
           final VerificaKit kit = await api.verificaKit(code);
           String temKit = kit.temKit ? "SIM": "NÃO";
+          List camisetas = kit.camisetas;
+          List<Text> textCamisetas = []; 
+          camisetas.forEach((camiseta) => textCamisetas.add(Text(camiseta)));
           setState(() {
-            display = Text(kit.nome + "\n Kit: " + temKit);
+            display = Column(
+              children: <Widget>[
+                Text(kit.nome + "\n Kit: " + temKit),
+                ...textCamisetas,
+              ],
+
+            );
           });
         } catch (e) {
           setState(() {
