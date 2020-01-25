@@ -10,6 +10,8 @@ class VerificaKit {
   }
 
   String get nome => this._nome;
+
   bool get temKit => this._temKit;
+
   List get camisetas => this._camisetas;
 }

@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:secomp_leitor/services/api_service.dart';
 import 'package:secomp_leitor/models/atividades.dart';
 import 'package:secomp_leitor/screens/leitor.dart';
 import 'package:secomp_leitor/screens/login.dart';
 import 'package:secomp_leitor/screens/visualizador.dart';
-
+import 'package:secomp_leitor/services/api_service.dart';
 
 class HomeScreen extends StatelessWidget {
   final ApiService api = ApiService();
-  
 
   Widget buildListItem(BuildContext context, Atividade atividade) {
     final horario = atividade.horario;
@@ -17,7 +15,9 @@ class HomeScreen extends StatelessWidget {
     return ListTile(
       title: Text(titulo),
       subtitle: Text(atividade.local),
-      trailing: Text(horario != null ? TimeOfDay.fromDateTime(horario).format(context) : "horário não definido"),
+      trailing: Text(horario != null
+          ? TimeOfDay.fromDateTime(horario).format(context)
+          : "horário não definido"),
       onTap: () {
         Navigator.push(
           context,
@@ -42,10 +42,10 @@ class HomeScreen extends StatelessWidget {
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.add_comment),
-                onPressed: () =>  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginPage()),
-                  ),
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                ),
               ),
               IconButton(
                 icon: Icon(Icons.visibility),
@@ -92,7 +92,6 @@ class HomeScreen extends StatelessWidget {
                     .where(
                         (atv) => atv.horario != null && atv.horario.day == 13)
                     .toList();
-              
 
                 segunda.sort((a, b) => a.horario.compareTo(b.horario));
                 terca.sort((a, b) => a.horario.compareTo(b.horario));
@@ -100,7 +99,9 @@ class HomeScreen extends StatelessWidget {
                 quinta.sort((a, b) => a.horario.compareTo(b.horario));
                 sexta.sort((a, b) => a.horario.compareTo(b.horario));
 
-                List<Atividade> outros = lista.where((atv) => atv.horario == null || atv.horario.day < 9).toList();
+                List<Atividade> outros = lista
+                    .where((atv) => atv.horario == null || atv.horario.day < 9)
+                    .toList();
 
                 return TabBarView(
                   children: <Widget>[
@@ -109,22 +110,22 @@ class HomeScreen extends StatelessWidget {
                       itemBuilder: (context, index) =>
                           buildListItem(context, segunda[index]),
                     ),
-                      ListView.builder(
+                    ListView.builder(
                       itemCount: terca.length,
                       itemBuilder: (context, index) =>
                           buildListItem(context, terca[index]),
                     ),
-                      ListView.builder(
+                    ListView.builder(
                       itemCount: quarta.length,
                       itemBuilder: (context, index) =>
                           buildListItem(context, quarta[index]),
                     ),
-                      ListView.builder(
+                    ListView.builder(
                       itemCount: quinta.length,
                       itemBuilder: (context, index) =>
                           buildListItem(context, quinta[index]),
                     ),
-                      ListView.builder(
+                    ListView.builder(
                       itemCount: sexta.length,
                       itemBuilder: (context, index) =>
                           buildListItem(context, sexta[index]),

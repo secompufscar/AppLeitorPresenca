@@ -8,5 +8,6 @@ class Inscricao {
   }
 
   String get nome => this._nome;
+
   bool get inscrito => this._inscrito;
 }

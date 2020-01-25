@@ -22,7 +22,10 @@ class NoticiaCard extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(right: 4),
-                  child: Icon(Icons.access_time, size: 16,),
+                  child: Icon(
+                    Icons.access_time,
+                    size: 16,
+                  ),
                 ),
                 Text(date),
               ],

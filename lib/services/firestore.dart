@@ -1,5 +1,5 @@
-import 'package:secomp_leitor/models/noticia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:secomp_leitor/models/noticia.dart';
 
 class FirestoreService {
   Future<List<Noticia>> loadNoticias() async {

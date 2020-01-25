@@ -16,7 +16,7 @@ class Atividades {
   static DateTime getDate(String date) {
     print(date);
     return DateTime.parse(
-          "2019-09-${date.substring(5, 7)} ${date.substring(17, 19)}:${date.substring(20, 22)}:00");
+        "2019-09-${date.substring(5, 7)} ${date.substring(17, 19)}:${date.substring(20, 22)}:00");
   }
 
   Atividades(List json) {
@@ -36,5 +36,6 @@ class Atividades {
   }
 
   List<Atividade> get results => _results;
+
   int get count => _count;
 }

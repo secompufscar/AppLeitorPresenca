@@ -1,13 +1,13 @@
 import 'dart:async';
 
+import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:qr_mobile_vision/qr_camera.dart';
-import 'package:audioplayers/audio_cache.dart';
-import 'package:secomp_leitor/services/api_service.dart';
 import 'package:secomp_leitor/models/inscricao.dart';
 import 'package:secomp_leitor/models/presenca.dart';
 import 'package:secomp_leitor/models/verifica_kit.dart';
+import 'package:secomp_leitor/services/api_service.dart';
 
 class Leitor extends StatefulWidget {
   @override
@@ -64,8 +64,7 @@ class _LeitorState extends State<Leitor> {
           ],
         );
       });
-    }
-    else if (presenca.status == 'JA_LIDO') {
+    } else if (presenca.status == 'JA_LIDO') {
       print("ja lido");
       setState(() {
         display = Column(
@@ -141,15 +140,14 @@ class _LeitorState extends State<Leitor> {
           if (widget.title.contains("Palestra:")) {
             _lerPresenca(true);
           } else if (widget.title.contains("Coffee-Break")) {
-            if(!kit.temKit) {
+            if (!kit.temKit) {
               showDialog(
-                context: context,
-                builder: (context) => _buildDialog(context, inscricao, kit));
+                  context: context,
+                  builder: (context) => _buildDialog(context, inscricao, kit));
             } else {
               _lerPresenca(true);
             }
-          } 
-          else if (!inscricao.inscrito) {
+          } else if (!inscricao.inscrito) {
             showDialog(
                 context: context,
                 builder: (context) => _buildDialog(context, inscricao, kit));
