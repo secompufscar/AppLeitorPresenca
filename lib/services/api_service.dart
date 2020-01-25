@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:secomp_leitor/atividades.dart';
+import 'package:secomp_leitor/models/atividades.dart';
 import 'package:secomp_leitor/constants.dart';
-import 'package:secomp_leitor/inscricao.dart';
-import 'package:secomp_leitor/presenca.dart';
-import 'package:secomp_leitor/verifica_kit.dart';
+import 'package:secomp_leitor/models/inscricao.dart';
+import 'package:secomp_leitor/models/presenca.dart';
+import 'package:secomp_leitor/models/verifica_kit.dart';
 
 class ApiService {
   Client client = Client();

@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:qr_mobile_vision/qr_camera.dart';
 import 'package:audioplayers/audio_cache.dart';
-import 'package:secomp_leitor/api_service.dart';
-import 'package:secomp_leitor/inscricao.dart';
-import 'package:secomp_leitor/presenca.dart';
-import 'package:secomp_leitor/verifica_kit.dart';
+import 'package:secomp_leitor/services/api_service.dart';
+import 'package:secomp_leitor/models/inscricao.dart';
+import 'package:secomp_leitor/models/presenca.dart';
+import 'package:secomp_leitor/models/verifica_kit.dart';
 
 class Leitor extends StatefulWidget {
   @override

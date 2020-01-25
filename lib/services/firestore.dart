@@ -1,4 +1,4 @@
-import 'package:secomp_leitor/noticia.dart';
+import 'package:secomp_leitor/models/noticia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreService {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:secomp_leitor/card_noticias.dart';
-import 'package:secomp_leitor/firestore.dart';
-import 'package:secomp_leitor/noticia.dart';
+import 'package:secomp_leitor/widgets/card_noticias.dart';
+import 'package:secomp_leitor/services/firestore.dart';
+import 'package:secomp_leitor/models/noticia.dart';
 
 class PostNoticias extends StatefulWidget {
   @override

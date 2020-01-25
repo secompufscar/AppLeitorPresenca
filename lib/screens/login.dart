@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:secomp_leitor/auth.dart';
-import 'package:secomp_leitor/post_noticias.dart';
+import 'package:secomp_leitor/services/auth.dart';
+import 'package:secomp_leitor/screens/post_noticias.dart';
 
 class LoginPage extends StatefulWidget {
   @override

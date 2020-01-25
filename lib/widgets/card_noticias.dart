@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:secomp_leitor/secomp_card.dart';
+import 'package:secomp_leitor/widgets/secomp_card.dart';
 
 class NoticiaCard extends StatelessWidget {
   final String content;

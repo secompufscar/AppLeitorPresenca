@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:secomp_leitor/api_service.dart';
-import 'package:secomp_leitor/atividades.dart';
-import 'package:secomp_leitor/leitor.dart';
-import 'package:secomp_leitor/login.dart';
-import 'package:secomp_leitor/post_noticias.dart';
-import 'package:secomp_leitor/visualizador.dart';
+import 'package:secomp_leitor/services/api_service.dart';
+import 'package:secomp_leitor/models/atividades.dart';
+import 'package:secomp_leitor/screens/leitor.dart';
+import 'package:secomp_leitor/screens/login.dart';
+import 'package:secomp_leitor/screens/visualizador.dart';
 
 
 class HomeScreen extends StatelessWidget {

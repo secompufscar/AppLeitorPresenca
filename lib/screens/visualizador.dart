@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_mobile_vision/qr_camera.dart';
-import 'package:secomp_leitor/api_service.dart';
-import 'package:secomp_leitor/inscricao.dart';
-import 'package:secomp_leitor/verifica_kit.dart';
+import 'package:secomp_leitor/services/api_service.dart';
+import 'package:secomp_leitor/models/verifica_kit.dart';
 
 class Visualizador extends StatefulWidget {
   @override
