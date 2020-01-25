@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:secomp_leitor/secomp_card.dart';
+import 'package:secomp_leitor/widgets/secomp_card.dart';
 
 class NoticiaCard extends StatelessWidget {
   final String content;
@@ -22,7 +22,10 @@ class NoticiaCard extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(right: 4),
-                  child: Icon(Icons.access_time, size: 16,),
+                  child: Icon(
+                    Icons.access_time,
+                    size: 16,
+                  ),
                 ),
                 Text(date),
               ],

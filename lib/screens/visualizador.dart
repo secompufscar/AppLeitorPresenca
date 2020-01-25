@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_mobile_vision/qr_camera.dart';
-import 'package:secomp_leitor/api_service.dart';
-import 'package:secomp_leitor/inscricao.dart';
-import 'package:secomp_leitor/verifica_kit.dart';
+import 'package:secomp_leitor/models/verifica_kit.dart';
+import 'package:secomp_leitor/services/api_service.dart';
 
 class Visualizador extends StatefulWidget {
   @override
@@ -10,7 +9,7 @@ class Visualizador extends StatefulWidget {
 }
 
 class _VisualizadorState extends State<Visualizador> {
-String qr;
+  String qr;
   bool camState = false;
   bool open = true;
   Widget display = Container();
@@ -24,8 +23,6 @@ String qr;
     super.initState();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     void lerInfo(String code) async {
@@ -38,9 +35,9 @@ String qr;
 
         try {
           final VerificaKit kit = await api.verificaKit(code);
-          String temKit = kit.temKit ? "SIM": "NÃO";
+          String temKit = kit.temKit ? "SIM" : "NÃO";
           List camisetas = kit.camisetas;
-          List<Text> textCamisetas = []; 
+          List<Text> textCamisetas = [];
           camisetas.forEach((camiseta) => textCamisetas.add(Text(camiseta)));
           setState(() {
             display = Column(
@@ -48,7 +45,6 @@ String qr;
                 Text(kit.nome + "\n Kit: " + temKit),
                 ...textCamisetas,
               ],
-
             );
           });
         } catch (e) {

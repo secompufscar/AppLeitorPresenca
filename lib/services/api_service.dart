@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:secomp_leitor/atividades.dart';
 import 'package:secomp_leitor/constants.dart';
-import 'package:secomp_leitor/inscricao.dart';
-import 'package:secomp_leitor/presenca.dart';
-import 'package:secomp_leitor/verifica_kit.dart';
+import 'package:secomp_leitor/models/atividades.dart';
+import 'package:secomp_leitor/models/inscricao.dart';
+import 'package:secomp_leitor/models/presenca.dart';
+import 'package:secomp_leitor/models/verifica_kit.dart';
 
 class ApiService {
   Client client = Client();
@@ -21,7 +21,7 @@ class ApiService {
     );
 
     String body = response.body;
-     if (response.statusCode == 200) {
+    if (response.statusCode == 200) {
       if (body.contains("ERROR")) {
         return Future.error("Ocorreu algum erro");
       } else if (body.contains("INVALID KEY")) {
@@ -36,14 +36,11 @@ class ApiService {
   Future<VerificaKit> verificaKit(String uuid) async {
     final response = await client.post(
       BASE_URL + "/api/verifica-kit",
-      body: json.encode({
-        "uuid_participante": uuid,
-        "key": API_KEY
-      }),
+      body: json.encode({"uuid_participante": uuid, "key": API_KEY}),
     );
 
     String body = response.body;
-     if (response.statusCode == 200) {
+    if (response.statusCode == 200) {
       if (body.contains("ERROR")) {
         return Future.error("Ocorreu algum erro");
       } else if (body.contains("INVALID KEY")) {
@@ -55,7 +52,8 @@ class ApiService {
     }
   }
 
-  Future<Presenca> lerPresenca(String uuid, String atividade, bool force) async {
+  Future<Presenca> lerPresenca(
+      String uuid, String atividade, bool force) async {
     final response = await client.post(
       BASE_URL + "/api/ler-presenca",
       body: json.encode({
@@ -70,7 +68,7 @@ class ApiService {
     print("body:" + response.body);
 
     String body = response.body;
-    
+
     if (response.statusCode == 200) {
       if (body.contains("ERROR")) {
         return Future.error("Ocorreu algum erro");

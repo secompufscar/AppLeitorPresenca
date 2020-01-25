@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:secomp_leitor/home.dart';
+import 'package:secomp_leitor/screens/home.dart';
 
 void main() => runApp(MyApp());
 

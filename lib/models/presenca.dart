@@ -10,6 +10,8 @@ class Presenca {
   }
 
   String get id => _id;
+
   String get nome => _nome;
+
   String get status => _status;
 }

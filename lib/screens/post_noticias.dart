@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:secomp_leitor/card_noticias.dart';
-import 'package:secomp_leitor/firestore.dart';
-import 'package:secomp_leitor/noticia.dart';
+import 'package:secomp_leitor/models/noticia.dart';
+import 'package:secomp_leitor/services/firestore.dart';
+import 'package:secomp_leitor/widgets/card_noticias.dart';
 
 class PostNoticias extends StatefulWidget {
   @override
@@ -41,16 +41,20 @@ class _PostNoticiasState extends State<PostNoticias> {
           title: Text("Deletar"),
           content: Text("Você tem certeza que quer deletar?"),
           actions: <Widget>[
-            MaterialButton(child: Text("sim"),onPressed: () async {
-              await _firestore.deleteNoticia(noticia);
-              setState(() {
-                
-              });
-              Navigator.pop(context);
-            },),
-            MaterialButton(child: Text("não"), onPressed: () {
-              Navigator.pop(context);
-            },)
+            MaterialButton(
+              child: Text("sim"),
+              onPressed: () async {
+                await _firestore.deleteNoticia(noticia);
+                setState(() {});
+                Navigator.pop(context);
+              },
+            ),
+            MaterialButton(
+              child: Text("não"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
           ],
         ),
       ),
