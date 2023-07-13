@@ -1,16 +1,67 @@
-# secomp_leitor
+<h1 align="center">
+📄<br>Conhecendo Flutter
+</h1>
 
-A new Flutter project.
+<p  align="center">
+Aplicativo para verificar a presença dos participantes da Secomp
+</p>
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+### Requisitos
 
-A few resources to get you started if this is your first Flutter project:
+-   [![git][git-logo]][git-url]
+-   [![android][android-logo]][android-url]
+-   [![flutter][flutter-logo]][flutter-url]
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+### Como rodar
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Clone the repositório
+    ```sh
+    git clone https://github.com/secompufscar/AppLeitorPresenca.git
+    ```
+
+2. Acesse a pasta clonada
+
+    ```sh
+    cd ./AppLeitorPresenca
+    ```
+
+3. Instale as dependências
+
+    ```sh
+    flutter pub get
+    ```
+
+4. Crie um arquivo de configurações de desenvolvimento /lib/constants.dart
+
+    ```sh
+    String BASE_URL = "";
+    String API_KEY = "";
+    ```
+
+5. Execute o programa
+
+    ```sh
+    flutter run
+    ```
+
+<div align="center">
+  <br/>
+  <br/>
+  <br/>
+    <div>
+      <h1>SECOMP UFSCAR</h1>
+      <sub>Copyright © 2023 - <a href="https://github.com/secompufsca">secompufscar</sub></a>
+    </div>
+    <br/>
+    <img src="https://avatars.githubusercontent.com/u/26929251?s=48&v=4" width="40" height="40"/>
+</div>
+
+[git-url]: https://git-scm.com/
+[git-logo]: https://img.shields.io/badge/Git-f14e32?style=for-the-badge&logo=git&logoColor=white
+[android-url]: https://developer.android.com/studio
+[android-logo]: https://img.shields.io/badge/Android.Studio-3ddc84?style=for-the-badge&logo=android&logoColor=white
+[flutter-url]: https://docs.flutter.dev/get-started/install/windows
+[flutter-logo]: https://img.shields.io/badge/flutter-1389fd?style=for-the-badge&logo=flutter&logoColor=white
+[demo]: assets/images/demo.gif
