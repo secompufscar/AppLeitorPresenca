@@ -1,5 +1,5 @@
 <h1 align="center">
-📄<br>Conhecendo Flutter
+📄<br>App Leitor de Presença
 </h1>
 
 <p  align="center">
