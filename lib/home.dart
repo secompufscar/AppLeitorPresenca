@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:secomp_leitor/api_service.dart';
 import 'package:secomp_leitor/atividades.dart';
-import 'package:secomp_leitor/leitor.dart';
+// import 'package:secomp_leitor/leitor.dart';
 import 'package:secomp_leitor/login.dart';
 import 'package:secomp_leitor/post_noticias.dart';
-import 'package:secomp_leitor/visualizador.dart';
+// import 'package:secomp_leitor/visualizador.dart';
 
 
 class HomeScreen extends StatelessWidget {
@@ -20,15 +20,15 @@ class HomeScreen extends StatelessWidget {
       subtitle: Text(atividade.local),
       trailing: Text(horario != null ? TimeOfDay.fromDateTime(horario).format(context) : "horário não definido"),
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Leitor(
-              title: titulo,
-              idAtividade: atividade.id.toString(),
-            ),
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => Leitor(
+        //       title: titulo,
+        //       idAtividade: atividade.id.toString(),
+        //     ),
+        //   ),
+        // );
       },
     );
   }
@@ -51,10 +51,10 @@ class HomeScreen extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.visibility),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Visualizador()),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => Visualizador()),
+                  // );
                 },
               ),
             ],

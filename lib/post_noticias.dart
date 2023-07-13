@@ -70,7 +70,7 @@ class _PostNoticiasState extends State<PostNoticias> {
       top: false,
       bottom: true,
       child: Scaffold(
-        resizeToAvoidBottomPadding: true, // this avoids the overflow error
+        // resizeToAvoidBottomPadding: true, // this avoids the overflow error
         appBar: AppBar(
           title: Text("Notícias"),
         ),
