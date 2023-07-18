@@ -1,3 +1,5 @@
+#Ambiente Virtual
+*.env
 # Miscellaneous
 *.class
 *.log
