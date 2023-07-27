@@ -8,7 +8,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-    final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   String email = '';
   String senha = '';
@@ -16,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Material(
-          child: Center(
+      child: Center(
         child: Form(
           key: _formKey,
           child: Column(
@@ -38,12 +38,15 @@ class _LoginPageState extends State<LoginPage> {
                 },
                 obscureText: true,
               ),
-              OutlineButton(
+              OutlinedButton(
                 child: Text("Login"),
                 onPressed: () {
                   _formKey.currentState.save();
                   handleSignInEmail(email, senha).whenComplete(() {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => PostNoticias()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PostNoticias()));
                   });
                 },
               )

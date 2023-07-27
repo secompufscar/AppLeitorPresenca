@@ -11,7 +11,7 @@ class PostNoticias extends StatefulWidget {
 class _PostNoticiasState extends State<PostNoticias> {
   FirestoreService _firestore = FirestoreService();
   final TextEditingController _textController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  //final GlobalKey<FormState> _formKey = GlobalKey<FormState>();           //NAO ESTÁ SENDO USADO
 
   String getTime(DateTime time) {
     Duration difference = DateTime.now().difference(time);
@@ -41,16 +41,20 @@ class _PostNoticiasState extends State<PostNoticias> {
           title: Text("Deletar"),
           content: Text("Você tem certeza que quer deletar?"),
           actions: <Widget>[
-            MaterialButton(child: Text("sim"),onPressed: () async {
-              await _firestore.deleteNoticia(noticia);
-              setState(() {
-                
-              });
-              Navigator.pop(context);
-            },),
-            MaterialButton(child: Text("não"), onPressed: () {
-              Navigator.pop(context);
-            },)
+            MaterialButton(
+              child: Text("sim"),
+              onPressed: () async {
+                await _firestore.deleteNoticia(noticia);
+                setState(() {});
+                Navigator.pop(context);
+              },
+            ),
+            MaterialButton(
+              child: Text("não"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
           ],
         ),
       ),
